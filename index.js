@@ -10,7 +10,7 @@ class MinifyLaravelJigsawOutputPlugin {
     constructor( options = {} ) {
         this.options  = options;
         this.env      = this.options.env || argv.env || 'local';
-        this.inPath   = this.getPath( this.options.input || `build_${this.env}` );
+        this.inPath   = this.getPath( this.options.input || `./build_${this.env}` );
         this.outPath  = this.getPath( this.options.output || this.inPath );
         this.pattern  = this.options.test || /\.html$/;
         this.encoding = this.options.encoding || 'utf8';
@@ -18,14 +18,14 @@ class MinifyLaravelJigsawOutputPlugin {
     }
 
     getPath( string ) {
-        if ( fs.existsSync( `./${string}` ) ) {
-            return path.normalize( `./${string}` );
+        if ( fs.existsSync( string ) ) {
+            return path.normalize( string );
         }
     }
 
-    log( string ) {
+    log( string, type = 'log' ) {
         if ( this.options.verbose ) {
-            console.log( string );
+            console[ type ]( string );
         }
     }
 
@@ -64,7 +64,9 @@ class MinifyLaravelJigsawOutputPlugin {
             this.log( 'Starting to minimize output...' );
 
             if ( !this.inPath ) {
-                throw new Error( `Build location "${this.inPath}" does not exist.` );
+                var err = `Input location "${this.options.input || 'build_' + this.env}" does not exist.`;
+                this.log( err, 'warn' );
+                throw new Error( err );
             }
 
             const inDir = path.resolve( this.inPath );
