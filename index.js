@@ -10,8 +10,8 @@ class MinifyLaravelJigsawOutputPlugin {
     constructor( options = {} ) {
         this.options  = options;
         this.env      = this.options.env || argv.env || 'local';
-        this.inPath   = this.options.input || this.getPath( `build_${this.env}` );
-        this.outPath  = this.options.output || this.inPath;
+        this.inPath   = this.getPath( this.options.input || `build_${this.env}` );
+        this.outPath  = this.getPath( this.options.output || this.inPath );
         this.pattern  = this.options.test || /\.html$/;
         this.encoding = this.options.encoding || 'utf8';
         this.rules    = this.options.rules || { collapseWhitespace: true };
