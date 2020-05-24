@@ -63,8 +63,8 @@ class MinifyLaravelJigsawOutputPlugin {
 
             this.log( 'Starting to minimize output...' );
 
-            if ( !this.path ) {
-                throw new Error( `Build location for "${this.env}" does not exist.` );
+            if ( !this.inPath ) {
+                throw new Error( `Build location "${this.inPath}" does not exist.` );
             }
 
             const inDir = path.resolve( this.inPath );
