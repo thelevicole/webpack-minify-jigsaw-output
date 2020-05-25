@@ -67,9 +67,9 @@ class MinifyLaravelJigsawOutputPlugin {
             throw new Error( err );
         }
 
-        if ( !this.allowedEnvs || this.allowedEnvs && ( this.allowedEnvs === '*' || Array.isArray( this.allowedEnvs ) && this.allowedEnvs.includes( this.env ) || this.allowedEnvs === this.env ) ) {
-            compiler.hooks.jigsawWebpackBuildDone.tap( 'MinifyLaravelJigsawOutputPlugin', () => {
+        compiler.hooks.jigsawWebpackBuildDone.tap( 'MinifyLaravelJigsawOutputPlugin', () => {
 
+            if ( !this.allowedEnvs || this.allowedEnvs && ( this.allowedEnvs === '*' || Array.isArray( this.allowedEnvs ) && this.allowedEnvs.includes( this.env ) || this.allowedEnvs === this.env ) ) {
                 this.log( 'Starting to minimize output...' );
 
                 if ( !this.inPath ) {
@@ -82,11 +82,11 @@ class MinifyLaravelJigsawOutputPlugin {
                 const outDir = path.resolve( this.outPath );
 
                 this.minfifyOutput( inDir, outDir );
-
-            } );
-        } else {
-                this.log( `Minifying skipped because enviroment (${this.env}) is ignored.` );
+            } else {
+                this.log( `Minifying skipped because "${this.env}" enviroment is excluded from the allowed list.` );
             }
+
+        } );
     }
 }
 
