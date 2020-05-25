@@ -8,13 +8,14 @@ const minifier = require( 'html-minifier' ).minify;
 class MinifyLaravelJigsawOutputPlugin {
 
     constructor( options = {} ) {
-        this.options  = options;
-        this.env      = this.options.env || argv.env || 'local';
-        this.inPath   = this.getPath( this.options.input || `./build_${this.env}` );
-        this.outPath  = this.getPath( this.options.output || this.inPath );
-        this.pattern  = this.options.test || /\.html$/;
-        this.encoding = this.options.encoding || 'utf8';
-        this.rules    = this.options.rules || { collapseWhitespace: true };
+        this.options     = options;
+        this.env         = this.options.env || argv.env || 'local';
+        this.allowedEnvs = this.options.allowedEnvs || '*'; // Only process if environment matches. Accepts string or array. Astrix for all environments.
+        this.inPath      = this.getPath( this.options.input || `./build_${this.env}` );
+        this.outPath     = this.getPath( this.options.output || this.inPath );
+        this.pattern     = this.options.test || /\.html$/;
+        this.encoding    = this.options.encoding || 'utf8';
+        this.rules       = this.options.rules || { collapseWhitespace: true };
     }
 
     getPath( string ) {
@@ -25,7 +26,7 @@ class MinifyLaravelJigsawOutputPlugin {
 
     log( string, type = 'log' ) {
         if ( this.options.verbose ) {
-            console[ type ]( string );
+            console[ type ]( `[MinifyLaravelJigsawOutputPlugin] ${string}` );
         }
     }
 
@@ -59,22 +60,33 @@ class MinifyLaravelJigsawOutputPlugin {
     }
 
     apply( compiler ) {
-        compiler.hooks.jigsawWebpackBuildDone.tap( 'MinifyLaravelJigsawOutputPlugin', () => {
 
-            this.log( 'Starting to minimize output...' );
+        if ( !compiler.hooks.jigsawWebpackBuildDone ) {
+            var err = `Jigsaw hooks don't exist. See: https://github.com/tightenco/laravel-mix-jigsaw/pull/14`;
+            this.log( err, 'warn' );
+            throw new Error( err );
+        }
 
-            if ( !this.inPath ) {
-                var err = `Input location "${this.options.input || 'build_' + this.env}" does not exist.`;
-                this.log( err, 'warn' );
-                throw new Error( err );
+        if ( !this.allowedEnvs || this.allowedEnvs && ( this.allowedEnvs === '*' || Array.isArray( this.allowedEnvs ) && this.allowedEnvs.includes( this.env ) || this.allowedEnvs === this.env ) ) {
+            compiler.hooks.jigsawWebpackBuildDone.tap( 'MinifyLaravelJigsawOutputPlugin', () => {
+
+                this.log( 'Starting to minimize output...' );
+
+                if ( !this.inPath ) {
+                    var err = `Input location "${this.options.input || 'build_' + this.env}" does not exist.`;
+                    this.log( err, 'warn' );
+                    throw new Error( err );
+                }
+
+                const inDir = path.resolve( this.inPath );
+                const outDir = path.resolve( this.outPath );
+
+                this.minfifyOutput( inDir, outDir );
+
+            } );
+        } else {
+                this.log( `Minifying skipped because enviroment (${this.env}) is ignored.` );
             }
-
-            const inDir = path.resolve( this.inPath );
-            const outDir = path.resolve( this.outPath );
-
-            this.minfifyOutput( inDir, outDir );
-
-        } );
     }
 }
 

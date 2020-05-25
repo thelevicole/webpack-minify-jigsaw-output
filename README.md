@@ -32,6 +32,7 @@ The below options can be passed to the plugin.
 |--|--|--|
 | `rules` | This is an object of rules to be used by [HTMLMinifier](https://kangax.github.io/html-minifier/). | `{ collapseWhitespace: true }` |
 | `env` | Set a specific build environment for dynamically guessing the out put directories. By default uses the parameter sent to webpack e.g. `npm run production` | `local` |
-| `verbose` | Wether or not to print logs to the console. | `false` |
+| `allowedEnvs` | Accepts a string or array of environment names for which minification should run. E.g. `[ 'production', 'staging' ]` will only minify production and staging builds.  | `*` |
+| `verbose` | Whether or not to print logs to the console. | `false` |
 | `test` | The regular expression used before modifying a file | `/\.html$/` |
 | `encoding` | The file encoding used to read the output. | `utf8` |
