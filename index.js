@@ -5,7 +5,7 @@ const path = require( 'path' );
 const argv = require( 'yargs' ).argv;
 const minifier = require( 'html-minifier' ).minify;
 
-class MinifyLaravelJigsawOutputPlugin {
+class MinifyJigsawOutput {
 
     constructor( options = {} ) {
         this.options     = options;
@@ -26,7 +26,7 @@ class MinifyLaravelJigsawOutputPlugin {
 
     log( string, type = 'log' ) {
         if ( this.options.verbose ) {
-            console[ type ]( `[MinifyLaravelJigsawOutputPlugin] ${string}` );
+            console[ type ]( `[MinifyJigsawOutput] ${string}` );
         }
     }
 
@@ -61,13 +61,13 @@ class MinifyLaravelJigsawOutputPlugin {
 
     apply( compiler ) {
 
-        if ( !compiler.hooks.jigsawWebpackBuildDone ) {
-            var err = `Jigsaw hooks don't exist. See: https://github.com/tightenco/laravel-mix-jigsaw/pull/14`;
+        if ( !compiler.hooks.jigsawDone ) {
+            var err = `Jigsaw hook doesn't exist. Please update tightenco/laravel-mix-jigsaw to ^1.2.0`;
             this.log( err, 'warn' );
             throw new Error( err );
         }
 
-        compiler.hooks.jigsawWebpackBuildDone.tap( 'MinifyLaravelJigsawOutputPlugin', () => {
+        compiler.hooks.jigsawDone.tap( 'MinifyJigsawOutput', () => {
 
             if ( !this.allowedEnvs || this.allowedEnvs && ( this.allowedEnvs === '*' || Array.isArray( this.allowedEnvs ) && this.allowedEnvs.includes( this.env ) || this.allowedEnvs === this.env ) ) {
                 this.log( 'Starting to minimize output...' );
@@ -90,4 +90,4 @@ class MinifyLaravelJigsawOutputPlugin {
     }
 }
 
-module.exports = MinifyLaravelJigsawOutputPlugin;
+module.exports = MinifyJigsawOutput;

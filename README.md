@@ -2,7 +2,7 @@
 Include the plugin in your `webpack.mix.js` file as follows:
 ```javascript
 const mix = require('laravel-mix');
-const MinifyLaravelJigsawOutputPlugin = require( 'minify-laravel-jigsaw-output-plugin' );
+const MinifyJigsawOutput = require('minify-laravel-jigsaw-output-plugin');
 require('laravel-mix-jigsaw');
 
 mix.disableSuccessNotifications();
@@ -18,8 +18,8 @@ mix.jigsaw()
 
 mix.webpackConfig({
     plugins: [
-        new MinifyLaravelJigsawOutputPlugin({
-	        verbose: true
+        new MinifyJigsawOutput({
+            verbose: true
         })
     ]
 });
