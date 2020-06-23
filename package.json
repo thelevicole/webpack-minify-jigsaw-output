@@ -1,5 +1,5 @@
 {
-  "name": "minify-laravel-jigsaw-output-plugin",
+  "name": "webkit-minify-jigsaw-output",
   "version": "1.0.0",
   "description": "A webpack plugin for minifying the HTML output from Tighten's Jigsaw",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thelevicole/minify-laravel-jigsaw-output-plugin.git"
+    "url": "git+https://github.com/thelevicole/webkit-minify-jigsaw-output.git"
   },
   "author": {
     "name": "Levi Cole",
@@ -20,7 +20,7 @@
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/thelevicole/minify-laravel-jigsaw-output-plugin/issues"
+    "url": "https://github.com/thelevicole/webkit-minify-jigsaw-output/issues"
   },
-  "homepage": "https://github.com/thelevicole/minify-laravel-jigsaw-output-plugin#readme"
+  "homepage": "https://github.com/thelevicole/webkit-minify-jigsaw-output#readme"
 }
