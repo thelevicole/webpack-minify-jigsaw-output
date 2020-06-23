@@ -169,7 +169,8 @@ The above example will only process `.html` files found in the about directory, 
 > - /Users/**about**/my-site/build_production/index.html
 > - /Users/example/project-**about**/build_production/index.html
 
-#### `encoding`
+### `encoding`
+
 If for some reason you need to set the file encoding used to read the input source, use this option. The allowed values are determined by node.js, a good thread about supported encodings can be found here: https://stackoverflow.com/a/14551669/3804924
 If empty, the default value is used: `'utf8'`
 
