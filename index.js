@@ -11,8 +11,6 @@ class MinifyJigsawOutput {
         this.options     = options;
         this.env         = this.options.env || argv.env || 'local';
         this.allowedEnvs = this.options.allowedEnvs || '*'; // Only process if environment matches. Accepts string or array. Astrix for all environments.
-        this.inPath      = this.getPath( this.options.input || `./build_${this.env}` );
-        this.outPath     = this.getPath( this.options.output || this.inPath );
         this.pattern     = this.options.test || /\.html$/;
         this.encoding    = this.options.encoding || 'utf8';
         this.rules       = this.options.rules || { collapseWhitespace: true };
@@ -22,6 +20,14 @@ class MinifyJigsawOutput {
         if ( fs.existsSync( string ) ) {
             return path.normalize( string );
         }
+    }
+    
+    getInPath() {
+        return this.getPath( this.options.input || `./build_${this.env}` );
+    }
+
+    getOutPath() {
+        return this.getPath( this.options.output || this.getInPath() );
     }
 
     log( string, type = 'log' ) {
@@ -72,14 +78,14 @@ class MinifyJigsawOutput {
             if ( !this.allowedEnvs || this.allowedEnvs && ( this.allowedEnvs === '*' || Array.isArray( this.allowedEnvs ) && this.allowedEnvs.includes( this.env ) || this.allowedEnvs === this.env ) ) {
                 this.log( 'Starting to minimize output...' );
 
-                if ( !this.inPath ) {
+                if ( !this.getInPath() ) {
                     var err = `Input location "${this.options.input || 'build_' + this.env}" does not exist.`;
                     this.log( err, 'warn' );
                     throw new Error( err );
                 }
 
-                const inDir = path.resolve( this.inPath );
-                const outDir = path.resolve( this.outPath );
+                const inDir = path.resolve( this.getInPath() );
+                const outDir = path.resolve( this.getOutPath() );
 
                 this.minfifyOutput( inDir, outDir );
             } else {

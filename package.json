@@ -1,6 +1,6 @@
 {
   "name": "@thelevicole/webkit-minify-jigsaw-output",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A webpack plugin for minifying the HTML output from Tighten's Jigsaw",
   "main": "index.js",
   "scripts": {
