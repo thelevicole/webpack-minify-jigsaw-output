@@ -68,9 +68,7 @@ class MinifyJigsawOutput {
     apply( compiler ) {
 
         if ( !compiler.hooks.jigsawDone ) {
-            var err = `Jigsaw hook doesn't exist. Please update tightenco/laravel-mix-jigsaw to ^1.2.0`;
-            this.log( err, 'warn' );
-            throw new Error( err );
+            throw new Error( "Jigsaw hook doesn't exist. Please update tightenco/laravel-mix-jigsaw to ^1.2.0" );
         }
 
         compiler.hooks.jigsawDone.tap( 'MinifyJigsawOutput', () => {

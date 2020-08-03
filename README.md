@@ -1,4 +1,7 @@
 # Minify the Jigsaw generated output
+[![Latest Stable Version](https://img.shields.io/npm/v/@thelevicole/webpack-minify-jigsaw-output)](https://www.npmjs.com/package/@thelevicole/webpack-minify-jigsaw-output)
+[![Total Downloads](https://img.shields.io/npm/dt/@thelevicole/webpack-minify-jigsaw-output)](https://www.npmjs.com/package/@thelevicole/webpack-minify-jigsaw-output)
+
 This webpack plugin is run when the [jigsawDone](https://github.com/tightenco/laravel-mix-jigsaw/pull/14) event.
 
 Basic Usage
