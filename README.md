@@ -1,24 +1,24 @@
 # Minify the Jigsaw generated output
-This webkit plugin is run when the [jigsawDone](https://github.com/tightenco/laravel-mix-jigsaw/pull/14) event.
+This webpack plugin is run when the [jigsawDone](https://github.com/tightenco/laravel-mix-jigsaw/pull/14) event.
 
 Basic Usage
 -
 
 Install with npm:
 ```bash
-npm i @thelevicole/webkit-minify-jigsaw-output --save-dev
+npm i @thelevicole/webpack-minify-jigsaw-output --save-dev
 ```
 
 Include the plugin in your `webpack.mix.js` file as follows:
 ```javascript
 const mix = require('laravel-mix');
-const MinifyJigsawOutput = require('@thelevicole/webkit-minify-jigsaw-output');
+const MinifyJigsawOutput = require('@thelevicole/webpack-minify-jigsaw-output');
 require('laravel-mix-jigsaw');
 
 ...
 ```
 
-And then add the plugin to the webkit config:
+And then add the plugin to the webpack config:
 ```javascript
 ...
 
@@ -34,7 +34,7 @@ mix.webpackConfig({
 The full `webpack.mix.js` should look something like...
 ```javascript
 const mix = require('laravel-mix');
-const MinifyJigsawOutput = require('webkit-minify-jigsaw-output');
+const MinifyJigsawOutput = require('webpack-minify-jigsaw-output');
 require('laravel-mix-jigsaw');
 
 mix.disableSuccessNotifications();

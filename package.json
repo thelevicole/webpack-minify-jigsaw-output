@@ -1,5 +1,5 @@
 {
-  "name": "@thelevicole/webkit-minify-jigsaw-output",
+  "name": "@thelevicole/webpack-minify-jigsaw-output",
   "version": "1.0.2",
   "description": "A webpack plugin for minifying the HTML output from Tighten's Jigsaw",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thelevicole/webkit-minify-jigsaw-output.git"
+    "url": "git+https://github.com/thelevicole/webpack-minify-jigsaw-output.git"
   },
   "author": {
     "name": "Levi Cole",
@@ -20,7 +20,7 @@
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/thelevicole/webkit-minify-jigsaw-output/issues"
+    "url": "https://github.com/thelevicole/webpack-minify-jigsaw-output/issues"
   },
-  "homepage": "https://github.com/thelevicole/webkit-minify-jigsaw-output#readme"
+  "homepage": "https://github.com/thelevicole/webpack-minify-jigsaw-output#readme"
 }
