@@ -37,7 +37,7 @@ mix.webpackConfig({
 The full `webpack.mix.js` should look something like...
 ```javascript
 const mix = require('laravel-mix');
-const MinifyJigsawOutput = require('webpack-minify-jigsaw-output');
+const MinifyJigsawOutput = require('@thelevicole/webpack-minify-jigsaw-output');
 require('laravel-mix-jigsaw');
 
 mix.disableSuccessNotifications();
