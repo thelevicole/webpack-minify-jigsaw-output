@@ -4,6 +4,7 @@ const fs = require( 'fs' );
 const path = require( 'path' );
 const argv = require( 'yargs' ).argv;
 const minifier = require( 'html-minifier' ).minify;
+const { getJigsawHooks } = require('laravel-mix-jigsaw/hooks');
 
 class MinifyJigsawOutput {
 
@@ -21,7 +22,7 @@ class MinifyJigsawOutput {
             return path.normalize( string );
         }
     }
-    
+
     getInPath() {
         return this.getPath( this.options.input || `./build_${this.env}` );
     }
@@ -67,29 +68,25 @@ class MinifyJigsawOutput {
 
     apply( compiler ) {
 
-        if ( !compiler.hooks.jigsawDone ) {
-            throw new Error( "Jigsaw hook doesn't exist. Please update tightenco/laravel-mix-jigsaw to ^1.2.0" );
-        }
+        compiler.hooks.compilation.tap('MinifyJigsawOutput', (compilation) => {
+            getJigsawHooks(compilation).done.tap('MinifyJigsawOutput', () => {
+                if ( !this.allowedEnvs || this.allowedEnvs && ( this.allowedEnvs === '*' || Array.isArray( this.allowedEnvs ) && this.allowedEnvs.includes( this.env ) || this.allowedEnvs === this.env ) ) {
+                    this.log( 'Starting to minimize output...' );
 
-        compiler.hooks.jigsawDone.tap( 'MinifyJigsawOutput', () => {
+                    if ( !this.getInPath() ) {
+                        var err = `Input location "${this.options.input || 'build_' + this.env}" does not exist.`;
+                        this.log( err, 'warn' );
+                        throw new Error( err );
+                    }
 
-            if ( !this.allowedEnvs || this.allowedEnvs && ( this.allowedEnvs === '*' || Array.isArray( this.allowedEnvs ) && this.allowedEnvs.includes( this.env ) || this.allowedEnvs === this.env ) ) {
-                this.log( 'Starting to minimize output...' );
+                    const inDir = path.resolve( this.getInPath() );
+                    const outDir = path.resolve( this.getOutPath() );
 
-                if ( !this.getInPath() ) {
-                    var err = `Input location "${this.options.input || 'build_' + this.env}" does not exist.`;
-                    this.log( err, 'warn' );
-                    throw new Error( err );
+                    this.minfifyOutput( inDir, outDir );
+                } else {
+                    this.log( `Minifying skipped because "${this.env}" enviroment is excluded from the allowed list.` );
                 }
-
-                const inDir = path.resolve( this.getInPath() );
-                const outDir = path.resolve( this.getOutPath() );
-
-                this.minfifyOutput( inDir, outDir );
-            } else {
-                this.log( `Minifying skipped because "${this.env}" enviroment is excluded from the allowed list.` );
-            }
-
+            } );
         } );
     }
 }
